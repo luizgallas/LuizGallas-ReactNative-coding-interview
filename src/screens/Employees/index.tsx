@@ -1,12 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import { FlatList, View } from 'react-native';
+import { FlatList } from 'react-native';
 
 import { LoadingIndicator, SafeAreaView } from '../../components';
 import { Employee } from '../../components/Employee';
 import { useListPersons } from '../../hooks/persons';
 import { IEmployee } from '../../types/employee';
-
-import styles from './styles';
+import { Separator } from '../../components/Separator';
 
 export function EmployeesScreen() {
   const [list, setList] = useState<IEmployee[]>([]);
@@ -31,6 +30,7 @@ export function EmployeesScreen() {
         refreshing={isLoading}
         onRefresh={refetch}
         data={list}
+        keyExtractor={item => item.email}
         renderItem={({ item }) => (
           <Employee
             item={{
@@ -42,12 +42,12 @@ export function EmployeesScreen() {
             }}
           />
         )}
-        onEndReachedThreshold={100}
-        onEndReached={() => fetchNextPage()}
+        onEndReachedThreshold={1}
+        onEndReached={() => !isFetchingNextPage && fetchNextPage()}
         ListFooterComponent={
           isLoading || isFetchingNextPage ? <LoadingIndicator /> : <></>
         }
-        ItemSeparatorComponent={() => <View style={styles.separator} />}
+        ItemSeparatorComponent={Separator}
       />
     </SafeAreaView>
   );

@@ -1,10 +1,11 @@
 import { useNavigation } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
 import React from 'react';
-import { Text, TouchableOpacity, View } from 'react-native';
+import { Platform } from 'react-native';
 import { ScreenParamsList } from '../../navigators/paramsList';
 import { IEmployee } from '../../types/employee';
-import styles from './styles';
+import { List } from './fragments/List/List';
+import { Card } from './fragments/Card/Card';
 
 type EmployeesStackProp = StackNavigationProp<ScreenParamsList, 'Employees'>;
 
@@ -20,14 +21,9 @@ export const Employee = (props: Props) => {
     navigate('EmployeeDetail', { employee: item });
   };
 
-  return (
-    <TouchableOpacity style={styles.employeeItem} onPress={goToEmployeeDetail}>
-      <View style={styles.employeeInfo}>
-        <Text>
-          {item.firstname} {item.lastname}
-        </Text>
-        <Text>{item.email}</Text>
-      </View>
-    </TouchableOpacity>
+  return Platform.OS === 'ios' ? (
+    <List item={item} goToEmployeeDetail={goToEmployeeDetail} />
+  ) : (
+    <Card item={item} goToEmployeeDetail={goToEmployeeDetail} />
   );
 };

@@ -16,4 +16,9 @@ export default StyleSheet.create({
   employeeInfo: {
     justifyContent: 'space-around',
   },
+  employeeName: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    marginBottom: 8,
+  },
 });
